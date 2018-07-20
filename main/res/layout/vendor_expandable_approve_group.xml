@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="5dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        app:layout_widthPercent="20%"
+        android:layout_height="70dp"
+        android:id="@+id/ll_approve_delivery_date"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical" >
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:id="@+id/txt_day_approval_delivery"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <com.comorinland.milkman.common.babushkatext.BabushkaText
+                android:id="@+id/txt_weekday_approval_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:textAlignment="center" />
+
+            <com.comorinland.milkman.common.babushkatext.BabushkaText
+                android:id="@+id/txt_month_approval_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        app:layout_widthPercent="60%"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ll_approve_delivery_date">
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:id="@+id/txt_approve_customer_name_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lines="2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        app:layout_widthPercent="20%"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/txt_expndable_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@drawable/ic_arrow_drop_up_black_24dp"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/cb_approve_milk"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:buttonTint="@color/mdtp_transparent_black"
+            android:clickable="true" />
+    </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

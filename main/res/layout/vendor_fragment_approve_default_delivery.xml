@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:buttonTint="@color/mdtp_transparent_black"
+        android:clickable="true" />
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_approve_delivery"
+        android:text="Default delivery awaiting approval"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:lines="2"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/checkBox"
+        android:layout_toLeftOf="@+id/checkBox"
+        android:layout_toStartOf="@+id/checkBox" />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/el_vendor_approve_default_delivery"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:transcriptMode="alwaysScroll"
+        android:childDivider="@color/colorPrimaryDark"
+        android:divider="@color/mdtp_transparent_black"
+        android:layout_above="@+id/btn_vendor_approve_delivery"
+        android:layout_below="@+id/checkBox">
+    </ExpandableListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_vendor_approve_default_delivery"
+        android:text="Approve Delivery"
+        android:elevation="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+</RelativeLayout>

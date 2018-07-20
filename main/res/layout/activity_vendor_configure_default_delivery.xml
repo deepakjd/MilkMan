@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.comorinland.milkman.vendorapp.VendorConfigureDefaultDelivery">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarConfigureDefaultDelivery"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar"
+            android:id="@+id/toolbarConfigureDefaultDelivery">
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_place_order"
+        android:layout_below="@+id/appBarConfigureDefaultDelivery"
+        android:orientation="vertical">
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/expandablelist"
+            android:id= "@+id/el_configure_delivery"
+            android:divider="@color/mdtp_transparent_black"
+            android:childDivider="@color/mdtp_transparent_black"
+            android:dividerHeight="1dp"
+            android:transcriptMode="alwaysScroll"
+            android:headerDividersEnabled="true"
+            android:footerDividersEnabled="true">
+        </ExpandableListView>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_submit_order"
+        android:shadowColor="@color/mdtp_button_color"
+        android:text="Submit Configuration"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+
+</RelativeLayout>

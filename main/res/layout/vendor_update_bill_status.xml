@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarUpdateBillStatus"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarUpdateBillStatus"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view_line_update_bill_status"
+        android:layout_below="@id/appBarUpdateBillStatus"
+        android:background="@color/mdtp_transparent_black"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lst_vendor_update_bill_status"
+        android:layout_below="@+id/view_line_update_bill_status"
+        android:layout_margin="8dp"
+        android:footerDividersEnabled="true"
+        android:dividerHeight="1dp"
+        android:headerDividersEnabled="true"
+        android:transcriptMode="alwaysScroll"
+        android:childDivider="@color/colorPrimaryDark"
+        android:divider="@color/mdtp_transparent_black">
+    </ListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_vendor_billing_confirm"
+        android:text="Go Ahead"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+</RelativeLayout>

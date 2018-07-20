@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_change_default_delivery"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="customerapp.ChangeDefaultDelivery">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarChangeDefaultDelivery"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbarChangeDelivery"
+            android:theme="@style/Toolbar">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_change_default_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        style="@style/Custom.Widget.CardView">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:dividerHeight="1dp"
+            android:divider="@color/colorPrimaryDark"
+            android:id= "@+id/list_milk_info">
+        </ListView>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_change_default_delivery"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:text="Change Default Delivery"
+        android:layout_gravity="bottom" />
+
+</android.support.design.widget.CoordinatorLayout>

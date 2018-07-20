@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="customerapp.DailyMilkInfoModify">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarMilkInfoModify"
+        android:theme="@style/AppTheme.AppBarOverlay" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarMilkInfoModify"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_place_order"
+        android:layout_below="@+id/appBarMilkInfoModify"
+        android:orientation="vertical">
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/expandablelist"
+            android:id= "@+id/el_modify_milk_info"
+            android:divider="@color/mdtp_transparent_black"
+            android:childDivider="@color/mdtp_transparent_black"
+            android:dividerHeight="1dp"
+            android:transcriptMode="alwaysScroll"
+            android:headerDividersEnabled="true"
+            android:footerDividersEnabled="true">
+        </ExpandableListView>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_place_order"
+        android:shadowColor="@color/mdtp_button_color"
+        android:text="Place your Order"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+</RelativeLayout>

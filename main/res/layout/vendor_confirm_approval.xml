@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.comorinland.milkman.vendorapp.VendorConfirmApproval">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarVendorConfirmApproval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarVendorConfirmApproval"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar"
+            app:layout_scrollFlags="scroll|enterAlways">
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/lst_vendor_confirm_approval_delivery"
+        android:layout_below="@+id/appBarVendorConfirmApproval"
+        android:layout_margin="8dp"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:transcriptMode="alwaysScroll"
+        android:childDivider="@color/colorPrimaryDark"
+        android:divider="@color/mdtp_transparent_black"
+        android:layout_above="@+id/btn_vendor_confirm_approval_delivery">
+    </ListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_vendor_confirm_approval_delivery"
+        android:text="Go Ahead"
+        android:elevation="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+</RelativeLayout>

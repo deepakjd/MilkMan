@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:id="@+id/txt_milk_type_info"
+        app:layout_widthPercent="30%"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:gravity="center_vertical" />
+
+    <RelativeLayout
+        app:layout_widthPercent="70%"
+        android:layout_height="70dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/txt_milk_type_info">
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:id="@+id/txt_milk_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center" />
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:id="@+id/txt_milk_packet_no"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/txt_milk_quantity"
+            android:gravity="center" />
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

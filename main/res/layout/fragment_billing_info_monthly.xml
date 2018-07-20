@@ -1,0 +1,71 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/ll_billinfo_date_display"
+        android:layout_gravity="top"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimaryLight"
+        android:weightSum="10">
+
+        <ImageButton
+            android:id="@+id/img_billinfo_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="2"
+            android:background="@drawable/left_arrow_distinct"
+            android:cropToPadding="true" />
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:id="@+id/txt_bill_dates"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:maxLines="3" />
+
+        <ImageButton
+            android:id="@+id/img_billinfo_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:cropToPadding="true"
+            android:background="@drawable/right_arrow_distinct"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ll_billinfo_date_display"
+        android:id="@+id/view_line_monthly_bill"
+        android:background="@color/colorPrimaryDark" />
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:id="@+id/txt_bill_info"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/view_line_monthly_bill"
+        android:background="@color/colorBackground"
+        android:gravity="center"
+        android:textSize="30dp" />
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:id="@+id/txt_bill_status"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorBackground"
+        android:gravity="center"
+        android:textSize="30dp" />
+
+</RelativeLayout>
+

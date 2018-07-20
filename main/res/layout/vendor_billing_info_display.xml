@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarBillingInfo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            app:layout_heightPercent="20%"
+            android:id="@+id/ll_bill_month_display"
+            android:layout_gravity="top"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryLight"
+            android:weightSum="10">
+
+            <ImageButton
+                android:id="@+id/img_billinfo_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:background="@drawable/left_arrow_distinct"
+                android:cropToPadding="true" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mdtp_transparent_black" />
+
+            <com.comorinland.milkman.common.babushkatext.BabushkaText
+                android:id="@+id/txt_bill_dates"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:includeFontPadding="true"
+                android:lines="3" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mdtp_transparent_black" />
+
+            <ImageButton
+                android:id="@+id/img_billinfo_right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:cropToPadding="true"
+                android:background="@drawable/right_arrow_distinct"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/viewBlackLine"
+            android:layout_below="@id/ll_bill_month_display"
+            android:background="@color/mdtp_transparent_black"/>
+
+        <ListView
+            android:id="@+id/lst_vendor_bill_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/viewBlackLine"
+            android:footerDividersEnabled="true"
+            android:dividerHeight="1dp"
+            android:divider="@color/mdtp_transparent_black">
+        </ListView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btn_vendor_billing_info_update"
+            android:text="Update Paid Information"
+            android:lines="2"
+            android:background="@drawable/buttonshape"
+            android:textAlignment="center" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

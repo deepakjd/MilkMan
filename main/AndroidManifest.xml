@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.comorinland.milkman">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".customerapp.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".customerapp.MainActivity"
+            android:label="Choose your app"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.RegistrationCustomerActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".customerapp.MainMenuFeatures"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.ModifyDelivery"
+            android:label="Modify Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.DailyMilkInfoModify"
+            android:label="Modify Order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.DailyMilkPlaceOrder"
+            android:label="Place Order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.ChangeDefaultDelivery"
+            android:label="Current Default Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.ChangeDefaultDeliveryExpandableList"
+            android:label="Change Default Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.ConfirmDefaultDelivery"
+            android:label="Confirm Default Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.CustomerLogin"
+            android:label="Customer Login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".customerapp.ConfirmCancelDelivery"
+            android:label="Cancel Delivery"
+            android:parentActivityName=".customerapp.MainMenuFeatures"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".customerapp.MainMenuFeatures" />
+        </activity>
+        <activity
+            android:name=".customerapp.BillingInformation"
+            android:label="@string/title_activity_billing_information"
+            android:parentActivityName=".customerapp.MainMenuFeatures"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".customerapp.MainMenuFeatures" />
+        </activity>
+        <activity
+            android:name=".vendorapp.VendorLogin"
+            android:label="Customer Login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorRegistration"
+            android:label="Vendor Registration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorMenu"
+            android:label="Vendor Menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorCustomerAddition"
+            android:label="Add Customer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorApproveDelivery"
+            android:label="@string/title_activity_vendor_approve_delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorChangeMilkDelivery"
+            android:label="Change Milk Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorCustomerIdFromDatabase"
+            android:label="Select Customer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorConfirmApproval"
+            android:label="Confirm Delivery"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorBillingInfoDisplay"
+            android:label="Billing Information"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorUpdateBillStatus"
+            android:label="Update Information"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vendorapp.VendorConfigureDefaultDelivery"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".customerapp.CustomerAddressAddition"
+            android:label="Customer Address Information"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+    </application>
+</manifest>

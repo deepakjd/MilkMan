@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_milk_quantity"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Quantity"
+        android:textStyle="italic"/>
+
+    <Spinner
+        android:id="@+id/spinner_milk_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/text_milk_quantity" />
+
+    <com.comorinland.milkman.common.ElegantNumberButton
+        android:id="@+id/elegant_button_number"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_below="@id/spinner_milk_quantity"
+        android:gravity="center">
+    </com.comorinland.milkman.common.ElegantNumberButton>
+
+    <Button
+        android:id="@+id/button_modify_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:shadowColor="@color/mdtp_button_color"
+        android:layout_below="@id/elegant_button_number"
+        android:text="Add to Cart"
+        android:textAlignment="center"/>
+
+</RelativeLayout>

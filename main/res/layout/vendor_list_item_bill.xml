@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <CheckBox
+        app:layout_widthPercent="20%"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/cb_paid_status"
+        android:text="Paid"
+        android:textColor="@color/mdtp_transparent_black"
+        android:gravity="center_vertical"
+        android:buttonTint="@color/mdtp_transparent_black"
+        android:clickable="true"/>
+
+    <com.comorinland.milkman.common.babushkatext.BabushkaText
+        android:id="@+id/txt_customer_name_id"
+        app:layout_widthPercent="50%"
+        android:layout_height="70dp"
+        android:layout_toRightOf="@+id/cb_paid_status"
+        android:lines="2"
+        android:layout_centerVertical="true"
+        android:gravity="center" />
+
+    <RelativeLayout
+        app:layout_widthPercent="30%"
+        android:layout_height="70dp"
+        android:layout_marginRight="8dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+
+        <com.comorinland.milkman.common.babushkatext.BabushkaText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/txt_bill_amount"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:lines="2"
+            android:gravity="center"
+            android:clickable="true" />
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

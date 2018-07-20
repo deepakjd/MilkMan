@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_address_content_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context="com.comorinland.milkman.customerapp.CustomerAddressAddition">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarCustomerAddressAddition"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar"
+            android:id="@+id/toolbarCustomerAddressAddition">
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:isScrollContainer="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@+id/appBarCustomerAddressAddition"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="House/Apartment No"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:background="@drawable/textboxshape"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:id="@+id/edtCustomerHomeNo"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Street/Road Name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtCustomerStreet"
+                android:background="@drawable/textboxshape"
+                android:inputType="textPostalAddress"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Area/Locality"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textboxshape"
+                android:inputType="textPostalAddress"
+                android:id="@+id/edtCustomerLocality"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtCustomerCity"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="City"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textboxshape"
+                android:id="@+id/edtCustomerCity"
+                android:inputType="none"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_customer_register_with_address"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="Register" />
+
+</RelativeLayout>

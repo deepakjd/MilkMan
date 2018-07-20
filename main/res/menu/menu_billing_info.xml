@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grp1">
+    <item
+        android:id="@+id/menu_daily_item"
+        android:enabled="true"
+        android:title="Daily Billing"
+        android:visible="true" />
+    </group>
+    <group android:id="@+id/grp2">
+    <item
+        android:id="@+id/menu_monthly_item"
+        android:enabled="true"
+        android:visible="true"
+        android:title="Monthly Billing" />
+    </group>
+</menu>

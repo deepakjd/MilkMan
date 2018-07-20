@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="customerapp.DailyMilkInfoModify">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarExpandableList"
+        android:theme="@style/AppTheme.AppBarOverlay" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarExpandableList"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/expandablelist"
+            android:id= "@+id/el_change_default_delivery"
+            android:divider="@color/mdtp_transparent_black"
+            android:childDivider="@color/mdtp_transparent_black"
+            android:transcriptMode="alwaysScroll"
+            android:dividerHeight="1dp"
+            android:headerDividersEnabled="true"
+            android:footerDividersEnabled="true">
+        </ExpandableListView>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/btn_default_delivery_expandable_list"
+        android:shadowColor="@color/mdtp_button_color"
+        android:layout_gravity="bottom"
+        android:text="Change Your Default Order"
+        android:background="@drawable/buttonshape"
+        android:textAlignment="center" />
+
+</android.support.design.widget.CoordinatorLayout>

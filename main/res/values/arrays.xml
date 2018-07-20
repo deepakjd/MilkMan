@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="feature_images">
+        <item>@drawable/customer_monthly_delivery</item>
+        <item>@drawable/customer_daily_delivery</item>
+        <item>@drawable/customer_billing</item>
+        <item>@drawable/customer_cancel</item>
+    </array>
+</resources>

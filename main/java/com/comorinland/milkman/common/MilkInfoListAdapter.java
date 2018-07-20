@@ -47,7 +47,6 @@ public class MilkInfoListAdapter extends BaseAdapter
         return position;
     }
 
-    //4
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {

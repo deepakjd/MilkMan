@@ -36,13 +36,12 @@ public class MilkInfoListAdapter extends BaseAdapter
         return arrayListMilkInfo.size();
     }
 
-    // 2
     @Override
     public MilkInfo getItem(int position) {
         return arrayListMilkInfo.get(position);
     }
 
-    //3
+
     @Override
     public long getItemId(int position) {
         return position;

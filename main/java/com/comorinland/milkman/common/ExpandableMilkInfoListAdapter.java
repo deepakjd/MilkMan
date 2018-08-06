@@ -58,6 +58,19 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
         mStrPreviouslyCheckedTag="";
     }
 
+    public boolean isMilkDeliveryPresent()
+    {
+        boolean entryAvailable = false;
+
+        for (int i = 0; i < mListMilkType.size(); i++)
+        {
+            ArrayList<MilkInfo> e = mHashmapMilkInfo.get(getGroup(i));
+            if (e.isEmpty() == false)
+                entryAvailable = true;
+        }
+        return entryAvailable;
+    }
+
     public HashMap<String, ArrayList<MilkInfo>> getMilkInfo() {
         return mHashmapMilkInfo;
     }
@@ -136,6 +149,7 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
         {
             String strMilkInfo;
             MilkInfo milkInfo = e.get(i);
+
             strMilkInfo = milkInfo.getPacketNumber() + " Packet of " + milkInfo.getQuantity() + "\n";
             strModifyMilkInfo += strMilkInfo;
         }
@@ -143,13 +157,12 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
         babushkaTextDisplayInfo.addPiece(new BabushkaText.Piece.Builder(strModifyMilkInfo).textColor(Color.parseColor("#8d8d8d")).build());
         babushkaTextDisplayInfo.display();
 
-        floatingActionButton.setTag(babushkaTextDisplayInfo);
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView txtView = (TextView) view.getTag();
+                BabushkaText txtView = (BabushkaText) view.getTag();
                 txtView.setText("");
+                e.clear();
                 view.setVisibility(View.INVISIBLE);
             }
         });
@@ -228,7 +241,8 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
 
                 BabushkaText babushkaTextDisplayInfo = (BabushkaText) viewGroup.findViewById(R.id.text_expandable_milk_info);
 
-                if (viewChild != null) {
+                if (viewChild != null)
+                {
                     ElegantNumberButton elegantNumberButton = (ElegantNumberButton) viewChild.findViewById(R.id.elegant_button_number);
                     Spinner spinnerQuantity = (Spinner) viewChild.findViewById(R.id.spinner_milk_quantity);
 
@@ -255,6 +269,13 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
                     strModifyMilkInfo += strMilkInfo;
                 }
                 babushkaTextDisplayInfo.setText(strModifyMilkInfo);
+
+                FloatingActionButton floatingActionButton = (FloatingActionButton) viewGroup.findViewById(R.id.fab_expandable_milk_info);
+                if (strModifyMilkInfo.isEmpty() == false)
+                {
+                    floatingActionButton.setTag(babushkaTextDisplayInfo);
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
             }
         });
         return convertView;

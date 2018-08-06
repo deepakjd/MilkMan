@@ -44,6 +44,18 @@ public class ExpandableApproveListAdapter extends BaseExpandableListAdapter
         arrSelectedApprovals.clear();
     }
 
+    public void ApproveAllDeliveries()
+    {
+        int count = getGroupCount();
+        for (int i = 0; i < count; i++)
+        arrSelectedApprovals.add((CustomerInfoDate)getGroup(i));
+    }
+
+    public void RemoveAllDeliveries()
+    {
+        arrSelectedApprovals.clear();
+    }
+
     public ArrayList<CustomerInfoDate> getSelectedApprovals()
     {
         return arrSelectedApprovals;

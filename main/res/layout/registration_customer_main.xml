@@ -28,29 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vendor ID: (Mobile No)"
-        android:id="@+id/textPhone"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp" />
-
-    <EditText
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textboxshape"
-        android:inputType="phone"
-        android:id="@+id/editPhone"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Login Information"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="32dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Customer ID (Registered mobile no)"
+            android:text="Customer ID (Enter your mobile no)"
             android:id="@+id/textCustomerID"
             android:layout_marginTop="8dp" />
 
@@ -83,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Enter Password:"
+            android:text="Enter a password:"
             android:id="@+id/textCustomerPassword"
             android:layout_marginTop="8dp" />
 
@@ -102,7 +82,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textPassWordRepeat"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Confirm Password"
+            android:text="Confirm the password"
             android:layout_marginTop="8dp"/>
 
         <EditText

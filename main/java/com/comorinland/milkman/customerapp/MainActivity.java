@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
-
         ImageView imgCustomerScreen = (ImageView) findViewById(R.id.imageviewCustomer);
 
         imgCustomerScreen.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
 
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         int id = item.getItemId();
 
         // No inspection Simplifiable if statement
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity
             dialogFragmentAboutScreen.show(getSupportFragmentManager(), "about screen");
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

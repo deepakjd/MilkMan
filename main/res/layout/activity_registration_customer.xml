@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -41,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll_customer_registration_bottom_bar"
-            android:background="@color/colorPrimaryLight"
+            android:background="@drawable/textboxshape"
             android:orientation="horizontal"
             android:weightSum="2"
             android:layout_alignParentBottom="true">
@@ -52,7 +51,8 @@
                 android:id="@+id/btn_customer_add_address"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="Add Address" />
+                android:text="Add Address"
+                android:textColor="@color/colorTextOceanBlue"/>
 
             <View
                 android:id="@+id/ViewColorPickerHelper"
@@ -70,7 +70,8 @@
                 android:layout_weight="1"
                 android:id="@+id/btn_customer_register"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="Skip to register" />
+                android:text="Skip to register"
+                android:textColor="@color/colorTextPomegranateRed"/>
         </LinearLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

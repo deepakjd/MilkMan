@@ -12,6 +12,7 @@
 package com.comorinland.milkman.customerapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,6 +29,8 @@ import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.MilkInfo;
 import com.comorinland.milkman.common.MilkInfoListAdapter;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
+import com.comorinland.milkman.vendorapp.VendorMenu;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -83,10 +86,10 @@ public class ConfirmDefaultDelivery extends AppCompatActivity implements Respons
         lstPlaceOrder.setAdapter(new MilkInfoListAdapter(this, milkInfoList));
 
         Button btnConfirmDefaultDelivery = (Button) findViewById(R.id.btn_confirm_default_delivery);
+
         btnConfirmDefaultDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (mStrAppType.equals("CustomerApp"))
                     new DownloadFromAmazonDBTask(ConfirmDefaultDelivery.this, "CustomerApp/ChangeDefaultDelivery.php", mProgressDialog).execute(jsonBuildDailyMilkInfo());
                 if (mStrAppType.equals("VendorApp"))
@@ -99,19 +102,23 @@ public class ConfirmDefaultDelivery extends AppCompatActivity implements Respons
     {
         if (strReturnCode.equals(Constant.DB_ERROR))
         {
-            SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "There was an error in updation");
+            SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "There was an error in updation",null);
         }
         else if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
         {
-            SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Please check your internet connection");
+            SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Please check your internet connection",null);
         }
         else
         {
             if (mStrAppType.equals("CustomerApp"))
-                SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Your change is waiting for approval");
-            if (mStrAppType.equals("VendorApp")) {
-                SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Regular monthly delivery for customer is done.");
-                finish();
+            {
+                Intent intent = new Intent(ConfirmDefaultDelivery.this, MainMenuFeatures.class);
+                SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Your change is waiting for approval",intent);
+            }
+            if (mStrAppType.equals("VendorApp"))
+            {
+                Intent intent = new Intent(ConfirmDefaultDelivery.this, VendorMenu.class);
+                SharedHelper.showAlertDialog(ConfirmDefaultDelivery.this, "Regular monthly delivery for customer is done.", intent);
             }
         }
     }

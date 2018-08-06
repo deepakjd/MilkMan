@@ -49,6 +49,16 @@ public class VendorCancelListAdapter extends ArrayAdapter<CustomerCancelInformat
         return arrSelectedApprovals;
     }
 
+    public void ApproveAllCancellations()
+    {
+        arrSelectedApprovals.addAll(mArrCustomerCancelInformation);
+    }
+
+    public void RemoveAllCancellations()
+    {
+        arrSelectedApprovals.removeAll(mArrCustomerCancelInformation);
+    }
+
     public void MakeCheckBoxesInvisible()
     {
         mIsCheckBoxVisible = Boolean.FALSE;

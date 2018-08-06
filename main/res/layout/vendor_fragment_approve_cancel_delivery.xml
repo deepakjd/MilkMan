@@ -7,28 +7,28 @@
     android:orientation="vertical">
 
     <CheckBox
-        android:id="@+id/checkBox_cancel_delivery"
+        android:id="@+id/cb_approve_all_cancel_deliveries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:buttonTint="@color/mdtp_transparent_black"
+        android:visibility="invisible"
         android:clickable="true" />
 
     <com.comorinland.milkman.common.babushkatext.BabushkaText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_cancel_delivery"
-        android:text="Cancellations awaiting your approval"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/checkBox_cancel_delivery"
-        android:layout_toLeftOf="@+id/checkBox_cancel_delivery"
-        android:layout_toStartOf="@+id/checkBox_cancel_delivery" />
+        android:layout_alignBottom="@+id/cb_approve_all_cancel_deliveries"
+        android:layout_toLeftOf="@+id/cb_approve_all_cancel_deliveries"
+        android:layout_toStartOf="@+id/cb_approve_all_cancel_deliveries" />
 
     <ListView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
         android:dividerHeight="1dp"
         android:divider="@color/colorPrimaryDark"
         android:id= "@+id/lst_approve_cancel_delivery"
-        android:layout_below="@+id/checkBox_cancel_delivery">
+        android:layout_below="@+id/cb_approve_all_cancel_deliveries">
     </ListView>
 
     <Button

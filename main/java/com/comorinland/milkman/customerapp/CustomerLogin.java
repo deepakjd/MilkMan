@@ -282,9 +282,16 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid mobile number.
         if (TextUtils.isEmpty(strCustomerID)) {
             mEditCustomerID.setError(getString(R.string.error_field_required));
+            focusView = mEditCustomerPassword;
+            cancel = true;
+        }
+
+        if (!isMobileIDValid(strCustomerID))
+        {
+            mEditCustomerID.setError(getString(R.string.error_invalid_mobile));
             focusView = mEditCustomerPassword;
             cancel = true;
         }
@@ -307,6 +314,10 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
         return password.length() > 4;
     }
 
+    private boolean isMobileIDValid(String mobileNo) {
+        //TODO: Replace this with your own logic
+        return mobileNo.length() == 10;
+    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate

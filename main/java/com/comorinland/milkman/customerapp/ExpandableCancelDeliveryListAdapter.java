@@ -96,7 +96,7 @@ public class ExpandableCancelDeliveryListAdapter extends BaseExpandableListAdapt
         if (groupPosition == GROUP_TYPE_1) {
             textView.setText("Cancel for selected dates");
         } else if (groupPosition == GROUP_TYPE_2)
-            textView.setText("Cancel monthly monthly_delivery");
+            textView.setText("Cancel monthly delivery");
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,7 @@ public class ExpandableCancelDeliveryListAdapter extends BaseExpandableListAdapt
                     TextView txtCancelText = (TextView) viewGroupCancel.findViewById(R.id.txt_Cancel_Info);
 
                     if (swSelector.isChecked()) {
-                        txtCancelText.setText("Cancel milk monthly_delivery from 5th Jan ");
+                        txtCancelText.setText("Cancel monthly delivery from next billing period ");
                         txtCancelText.setVisibility(View.VISIBLE);
                         bMonthlyCancel = true;
                     } else {

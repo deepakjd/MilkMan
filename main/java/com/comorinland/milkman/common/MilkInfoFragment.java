@@ -30,7 +30,6 @@ import android.widget.ListView;
 
 import com.comorinland.milkman.R;
 import com.comorinland.milkman.customerapp.DailyMilkInfoModify;
-import com.comorinland.milkman.customerapp.SharedHelper;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -303,15 +302,14 @@ public class MilkInfoFragment extends Fragment implements ResponseHandler
         {
             if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
             {
-                SharedHelper.showAlertDialog(getActivity(), "Milk Information not available for this date");
+                SharedHelper.showAlertDialog(getActivity(), "Milk Information not available for this date",null);
             }
             else if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
             {
-                SharedHelper.showAlertDialog(getActivity(), "Please check your connection");
+                SharedHelper.showAlertDialog(getActivity(), "Please check your connection",null);
             }
             else    // Setting Dialog Message
-                SharedHelper.showAlertDialog(getActivity(), "Sorry for the problem. Please contact your adminstrator");
-
+                SharedHelper.showAlertDialog(getActivity(), "Sorry for the problem. Please contact your adminstrator", null);
             return;
         }
 

@@ -12,6 +12,7 @@
 package com.comorinland.milkman.customerapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
@@ -79,7 +81,7 @@ public class ConfirmCancelDelivery extends AppCompatActivity implements Response
                 if ((expandableCancelDeliveryListAdapter.getMonthlyCancelInfo()) || (bDailyCancel == true))
                     new DownloadFromAmazonDBTask(ConfirmCancelDelivery.this, "CustomerApp/CustomerCancelDelivery.php", mProgressDialog).execute(jsonBuildCancelInformation());
                 else
-                    SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "You have not chosen to customer_cancel anything.");
+                    SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "You have not chosen to customer_cancel anything.",null);
             }
         });
     }
@@ -133,15 +135,16 @@ public class ConfirmCancelDelivery extends AppCompatActivity implements Response
     {
         if (strReturnCode.equals(Constant.DB_ERROR))
         {
-            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Sorry for the problem. Please contact your adminstrator");
+            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Sorry for the problem. Please contact your adminstrator",null);
         }
         else if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
         {
-            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Please check your connection");
+            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Please check your connection",null);
         }
         else
         {
-            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Your cancellation request is waiting for approval");
+            Intent e = new Intent(ConfirmCancelDelivery.this,MainMenuFeatures.class);
+            SharedHelper.showAlertDialog(ConfirmCancelDelivery.this, "Your cancellation request is waiting for approval", e);
         }
     }
 
@@ -161,7 +164,6 @@ public class ConfirmCancelDelivery extends AppCompatActivity implements Response
             return Constant.JSON_SUCCESS;
 
     }
-
 
     @Override
     public void onFragmentInteraction(List<Date> dateList)
@@ -188,10 +190,10 @@ public class ConfirmCancelDelivery extends AppCompatActivity implements Response
 
         if (dateList.size() == 1)
         {
-            txtCancelInfo.setText("Cancel milk monthly_delivery on  : " + strCancelFormatDates.get(0));
+            txtCancelInfo.setText("Cancel milk delivery on  : " + strCancelFormatDates.get(0));
         }
         else
-            txtCancelInfo.setText("Cancel milk monthly_delivery from " + strCancelFormatDates.get(0) + " to " + strCancelFormatDates.get(1));
+            txtCancelInfo.setText("Cancel milk delivery from " + strCancelFormatDates.get(0) + " to " + strCancelFormatDates.get(1));
 
         txtCancelInfo.setVisibility(View.VISIBLE);
     }

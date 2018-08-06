@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import com.comorinland.milkman.BuildConfig;
 
 import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.babushkatext.BabushkaText;
@@ -27,15 +28,17 @@ public class DialogAboutScreenFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View dialogView = inflater.inflate(R.layout.fragment_dialog_about_screen,null);
 
         TextView title = new TextView(getActivity());
+
         // You Can Customise your Title here
         title.setText("About");
-        title.setBackgroundColor(Color.DKGRAY);
+        title.setBackgroundColor(Color.GRAY);
         title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.WHITE);
@@ -53,17 +56,19 @@ public class DialogAboutScreenFragment extends DialogFragment
                 }
             });
 
+        String versionName = BuildConfig.VERSION_NAME;
+
         BabushkaText babushkaTextVersion = (BabushkaText)dialogView.findViewById(R.id.version_about_screen);
-        babushkaTextVersion.setText(" Version : 1.0 ");
+        babushkaTextVersion.setText(" Version : " + versionName);
 
         BabushkaText babushkaTextAbout = (BabushkaText)dialogView.findViewById(R.id.description_about_screen);
         babushkaTextAbout.setText(" This is an app which facilitates the interaction between customer and supplier for milk delivery ");
 
         BabushkaText babushkaTextDevelopers = (BabushkaText) dialogView.findViewById(R.id.developer_about_screen);
-        babushkaTextDevelopers.setText("Copyright \0169 2017-2019 Comorinland Developers");
+        babushkaTextDevelopers.setText("Copyright 2018 Comorinland Developers");
 
         BabushkaText babushkaTextCredits = (BabushkaText) dialogView.findViewById(R.id.credits_about_screen);
-        babushkaTextCredits.addPiece(new BabushkaText.Piece.Builder("Credits : \n").build());
+        babushkaTextCredits.addPiece(new BabushkaText.Piece.Builder("Credits :\n").build());
         babushkaTextCredits.addPiece(new BabushkaText.Piece.Builder("Icons made by Freepik from www.flaticon.com ").build());
         babushkaTextCredits.display();
 

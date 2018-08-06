@@ -1,8 +1,7 @@
 package com.comorinland.milkman.vendorapp;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +16,9 @@ import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
-import com.comorinland.milkman.customerapp.SharedHelper;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -216,7 +214,8 @@ public class VendorRegistration extends AppCompatActivity implements ResponseHan
     {
         if (strReturnCode.equals(Constant.VENDOR_WRITE_SUCCESS))
         {
-            SharedHelper.showAlertDialog(this, "You have been sucessfully registered");
+            Intent intentSharedHelper = new Intent(VendorRegistration.this,VendorLogin.class);
+            SharedHelper.showAlertDialog(this, "You have been sucessfully registered", intentSharedHelper );
         }
         else if (strReturnCode.equals(Constant.JSON_SUCCESS))
         {
@@ -237,13 +236,11 @@ public class VendorRegistration extends AppCompatActivity implements ResponseHan
                             CallbackDistributionCompanySpinner();
                         }
                     });
-
             hintSpinner.init();
-
         }
         else
         {
-            SharedHelper.showAlertDialog(this, "Problem in accessing data from server");
+            SharedHelper.showAlertDialog(this, "Problem in accessing data from server",null);
         }
     }
 }

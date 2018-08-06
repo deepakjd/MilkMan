@@ -3,6 +3,8 @@ package com.comorinland.milkman.vendorapp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 
@@ -28,6 +32,8 @@ import com.comorinland.milkman.common.ResponseHandler;
 import com.comorinland.milkman.common.DataHandler;
 import com.comorinland.milkman.common.Constant;
 
+import com.comorinland.milkman.common.SharedHelper;
+import com.comorinland.milkman.common.babushkatext.BabushkaText;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -145,10 +151,52 @@ public class VendorFragmentApproveDelivery extends Fragment implements DataHandl
                         alertDialog.setTitle("Alert");
 
                         // Setting Dialog Message
-                        alertDialog.setMessage("You have not selected any items.Please select atleast one");
+                        alertDialog.setMessage("You have not selected any items. Please select atleast one");
+
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog    closed
+
+                            }
+                        });
+                        alertDialog.show();
                     }
                     else
                         mPlaceOrderListener.HandlePlaceOrderClick(e);
+                }
+            }
+        });
+
+        CheckBox cbApproveAllDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_deliveries);
+
+        cbApproveAllDeliveries.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true) {
+                    int count = elApproveDeliveryListView.getChildCount();
+                    for (int i = 0; i < count; i++) {
+                        View v = elApproveDeliveryListView.getChildAt(i);
+                        CheckBox cbApproveDelivery = (CheckBox) v.findViewById(R.id.cb_approve_milk);
+                        cbApproveDelivery.setChecked(true);
+                    }
+                    ExpandableApproveListAdapter expandableApproveListAdapter = (ExpandableApproveListAdapter) elApproveDeliveryListView.getExpandableListAdapter();
+                    if (expandableApproveListAdapter != null) {
+                        expandableApproveListAdapter.ApproveAllDeliveries();
+                    }
+                }
+                if (isChecked == false)
+                {
+                    int count = elApproveDeliveryListView.getChildCount();
+                    for (int i = 0; i < count; i++)
+                    {
+                        View v = elApproveDeliveryListView.getChildAt(i);
+                        CheckBox cbApproveDelivery = (CheckBox) v.findViewById(R.id.cb_approve_milk);
+                        cbApproveDelivery.setChecked(false);
+                    }
+                    ExpandableApproveListAdapter expandableApproveListAdapter = (ExpandableApproveListAdapter) elApproveDeliveryListView.getExpandableListAdapter();
+                    if (expandableApproveListAdapter != null)
+                    {
+                        expandableApproveListAdapter.RemoveAllDeliveries();
+                    }
                 }
             }
         });
@@ -177,10 +225,13 @@ public class VendorFragmentApproveDelivery extends Fragment implements DataHandl
             strCustomerName = "Name Unknown";
             return strCustomerName;
         }
+
         for (CustomerInfo xCustomerInfo : mlistCustomerInfo)
         {
-            if (xCustomerInfo.CustomerID.equals(strCustomerId))
+            if (xCustomerInfo.CustomerID.equals(strCustomerId)) {
                 strCustomerName = xCustomerInfo.CustomerName;
+                break;
+            }
             else
                 strCustomerName = "Name Unknown";
         }
@@ -276,6 +327,28 @@ public class VendorFragmentApproveDelivery extends Fragment implements DataHandl
             elApproveDeliveryListView.setGroupIndicator(null);
 
             mapMilkInfo.clear();
+
+            BabushkaText babushkaTextApproveDelivery = (BabushkaText) getActivity().findViewById(R.id.txt_approve_delivery);
+            babushkaTextApproveDelivery.setText("Deliveries awaiting your approval");
+
+            CheckBox cbApproveDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_deliveries);
+            cbApproveDeliveries.setVisibility(View.VISIBLE);
+
+        }
+        else if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
+        {
+            CheckBox cbApproveDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_deliveries);
+            BabushkaText babushkaTextApproveDelivery = (BabushkaText) getActivity().findViewById(R.id.txt_approve_delivery);
+            Button btnApproveDelivery = (Button)getActivity().findViewById(R.id.btn_vendor_approve_delivery);
+
+            cbApproveDeliveries.setVisibility(View.INVISIBLE);
+            babushkaTextApproveDelivery.setText("There are no approval requests right now");
+            btnApproveDelivery.setEnabled(false);
+        }
+        else
+        {
+            Intent intentSharedHelper = new Intent(getActivity(),VendorMenu.class);
+            SharedHelper.showAlertDialog(getActivity(), "Problem in network connection", intentSharedHelper);
         }
     }
 }

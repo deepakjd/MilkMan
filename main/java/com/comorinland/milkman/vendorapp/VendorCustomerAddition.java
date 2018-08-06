@@ -9,13 +9,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
@@ -23,12 +20,8 @@ import com.comorinland.milkman.common.CustomerInfo;
 import com.comorinland.milkman.common.CustomerInfoDatabase;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
-import com.comorinland.milkman.customerapp.SharedHelper;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class VendorCustomerAddition extends AppCompatActivity implements ResponseHandler
 {
@@ -61,11 +54,44 @@ public class VendorCustomerAddition extends AppCompatActivity implements Respons
             public void onClick(View view)
             {
 
+                boolean bAuthenticateOK = true;
+                View focusView = null;
+
                 EditText edtTextCustomerID = (EditText)findViewById(R.id.vendor_customer_mobile_no);
                 mStrCustomerID = edtTextCustomerID.getText().toString();
 
+                if (TextUtils.isEmpty(mStrCustomerID))
+                {
+                    edtTextCustomerID.setError(getString(R.string.error_field_required));
+                    focusView = edtTextCustomerID;
+                    bAuthenticateOK = false;
+                }
+
+                // Check for a valid Customer ID (Mobile Number)
+                if (!isMobileIDValid(mStrCustomerID))
+                {
+                    edtTextCustomerID.setError(getString(R.string.error_invalid_mobile));
+                    focusView = edtTextCustomerID;
+                    bAuthenticateOK = false;
+                }
+
                 EditText edtTextCustomerName = (EditText)findViewById(R.id.vendor_customer_name);
                 mStrCustomerName = edtTextCustomerName.getText().toString();
+
+                if (TextUtils.isEmpty(mStrCustomerName))
+                {
+                    edtTextCustomerName.setError(getString(R.string.error_field_required));
+                    focusView = edtTextCustomerName;
+                    bAuthenticateOK = false;
+                }
+
+                if (bAuthenticateOK == false)
+                {
+                    // There was an error; don't attempt login and focus the first
+                    // form field with an error.
+                    focusView.requestFocus();
+                    return;
+                }
 
                 EditText edtTextPostalAddress = (EditText)findViewById(R.id.vendor_customer_address);
                 String strPostalAddress = edtTextPostalAddress.getText().toString();
@@ -79,6 +105,11 @@ public class VendorCustomerAddition extends AppCompatActivity implements Respons
         });
     }
 
+    private boolean isMobileIDValid(String mobileNo) {
+        //TODO: Replace this with your own logic
+        return mobileNo.length() == 10;
+    }
+
     private JsonObject jsonBuildInfo(String strPostalAddress)
     {
         JsonObject jsonCustomerObject = new JsonObject();
@@ -87,7 +118,9 @@ public class VendorCustomerAddition extends AppCompatActivity implements Respons
         String strVendorID = sharedPref.getString(getString(R.string.vendor_id),null);
 
         jsonCustomerObject.addProperty("CustomerName", mStrCustomerName);
-        jsonCustomerObject.addProperty("PostalAddress", strPostalAddress);
+        if (strPostalAddress.isEmpty() == false)
+            jsonCustomerObject.addProperty("PostalAddress", strPostalAddress);
+
         jsonCustomerObject.addProperty("CustomerID", mStrCustomerID);
         jsonCustomerObject.addProperty("VendorID", strVendorID);
 
@@ -98,7 +131,6 @@ public class VendorCustomerAddition extends AppCompatActivity implements Respons
     @Override
     public String HandleJsonResponse(String strResponse)
     {
-
         if (strResponse == null)
         {
             return Constant.RESPONSE_UNAVAILABLE;
@@ -125,7 +157,7 @@ public class VendorCustomerAddition extends AppCompatActivity implements Respons
         }
         else
         {
-            SharedHelper.showAlertDialog(VendorCustomerAddition.this, "Customer Addition Failed");
+            SharedHelper.showAlertDialog(VendorCustomerAddition.this, "Customer Addition Failed", null);
         }
     }
 

@@ -41,7 +41,6 @@ public class MilkInfoListAdapter extends BaseAdapter
         return arrayListMilkInfo.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -74,5 +73,6 @@ public class MilkInfoListAdapter extends BaseAdapter
         babushkaTextNumber.display();
 
         return rowView;
+        /* Just Checking the HEAD branch in git */
     }
 }

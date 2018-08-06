@@ -29,6 +29,7 @@ import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.MilkInfo;
 import com.comorinland.milkman.common.MilkInfoListAdapter;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -140,12 +141,12 @@ public class ChangeDefaultDelivery extends AppCompatActivity implements Response
         {
             if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
             {
-                SharedHelper.showAlertDialog(ChangeDefaultDelivery.this, "Milk Information not available for this date");
+                SharedHelper.showAlertDialog(ChangeDefaultDelivery.this, "Milk Information not available for this date",null);
             }
             else
             {
                 // Setting Dialog Message
-                SharedHelper.showAlertDialog(ChangeDefaultDelivery.this, "Problem in getting information");
+                SharedHelper.showAlertDialog(ChangeDefaultDelivery.this, "Problem in getting information", null);
             }
         }
         else

@@ -17,15 +17,14 @@ import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -256,11 +255,11 @@ public class BillingInfoMonthlyFragment extends Fragment implements ResponseHand
         {
             if ((strReturnCode.equals(Constant.DB_ERROR)) || (strReturnCode.equals(Constant.JSON_EXCEPTION)))
             {
-                SharedHelper.showAlertDialog(getActivity(), "Sorry for the problem. Please contact your adminstrator");
+                SharedHelper.showAlertDialog(getActivity(), "Sorry for the problem. Please contact your adminstrator",null);
             }
             else if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
             {
-                SharedHelper.showAlertDialog(getActivity(), "Please check your connection");
+                SharedHelper.showAlertDialog(getActivity(), "Please check your connection",null);
             }
         }
     }

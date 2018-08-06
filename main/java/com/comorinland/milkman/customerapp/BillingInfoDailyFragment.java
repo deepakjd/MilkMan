@@ -22,6 +22,7 @@ import com.comorinland.milkman.common.DatePickerFragment;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.MilkInfoListAdapter;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
 import com.comorinland.milkman.common.babushkatext.BabushkaText;
 import com.comorinland.milkman.common.MilkInfo;
 import com.google.gson.JsonObject;
@@ -247,12 +248,12 @@ public class BillingInfoDailyFragment extends Fragment implements ResponseHandle
 
         if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
         {
-            SharedHelper.showAlertDialog(getActivity(), "Price information not available for this date");
+            SharedHelper.showAlertDialog(getActivity(), "Price information not available for this date",null);
             return;
         }
         if ((strReturnCode.equals(Constant.DB_ERROR)) || (strReturnCode.equals(Constant.JSON_EXCEPTION)))
         {
-            SharedHelper.showAlertDialog(getActivity(), "Encountered an issue. Please try again");
+            SharedHelper.showAlertDialog(getActivity(), "Encountered an issue. Please try again", null);
             return;
         }
 

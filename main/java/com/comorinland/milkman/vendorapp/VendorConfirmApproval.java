@@ -1,8 +1,7 @@
 package com.comorinland.milkman.vendorapp;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,7 @@ import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
-import com.comorinland.milkman.customerapp.DailyMilkPlaceOrder;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -178,33 +177,19 @@ public class VendorConfirmApproval extends AppCompatActivity implements Response
 
     public void UpdateMilkInfoDisplay(String strReturnCode)
     {
-        AlertDialog alertDialog = new AlertDialog.Builder(VendorConfirmApproval.this).create();
-
-        // Setting Dialog Title
-        alertDialog.setTitle("Alert");
-
         if (strReturnCode.equals(Constant.DB_ERROR))
         {
             // Setting Dialog Message
-            alertDialog.setMessage("Sorry there was a problem. Please contact your administrator");
+            SharedHelper.showAlertDialog(VendorConfirmApproval.this,"Sorry there was a problem. Please contact your administrator",null);
         }
         else if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
         {
-            alertDialog.setMessage("Please check your connection");
+            SharedHelper.showAlertDialog(VendorConfirmApproval.this,"Please check your connection",null);
         }
         else
         {
-            alertDialog.setMessage("Your change is successful");
+            Intent intent = new Intent(VendorConfirmApproval.this, VendorApproveDelivery.class);
+            SharedHelper.showAlertDialog(VendorConfirmApproval.this,"Your change is successful", intent);
         }
-
-        // Setting OK Button
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // Write your code here to execute after dialog    closed
-                finish();
-            }
-        });
-        // Showing Alert Message
-        alertDialog.show();
     }
 }

@@ -20,6 +20,7 @@ import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.SharedHelper;
 import com.google.gson.JsonObject;
 
 public class RegistrationCustomerActivity extends AppCompatActivity implements ResponseHandler
@@ -131,19 +132,17 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
         EditText edtCustomerIDView;
         EditText edtPasswordView;
         EditText edtPasswordRepeatView;
-        EditText edtVendorIDView;
 
         edtCustomerNameView = (EditText) findViewById(R.id.editCustomerName);
         edtCustomerIDView = (EditText) findViewById(R.id.editCustomerID);
         edtPasswordView = (EditText) findViewById(R.id.editCustomerPassword);
         edtPasswordRepeatView = (EditText) findViewById(R.id.editPasswordRepeat);
-        edtVendorIDView = (EditText) findViewById(R.id.editPhone);
 
         mStrCustomerName = edtCustomerNameView.getText().toString();
         mStrCustomerID = edtCustomerIDView.getText().toString();
         mStrCustomerPassword = edtPasswordView.getText().toString();
         mStrPasswordRepeat = edtPasswordRepeatView.getText().toString();
-        mStrVendorID = edtVendorIDView.getText().toString();
+
 
         boolean bAuthenticateOK = true;
         View focusView = null;
@@ -156,24 +155,23 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
             bAuthenticateOK = false;
         }
 
-        // Check for a valid Customer ID (Mobile Number)
-        if (TextUtils.isEmpty(mStrCustomerID) && !isMobileIDValid(mStrCustomerID))
+        if (TextUtils.isEmpty(mStrCustomerID))
         {
-            edtCustomerIDView.setError(getString(R.string.error_field_required));
+            edtCustomerNameView.setError(getString(R.string.error_field_required));
+            focusView = edtCustomerNameView;
+            bAuthenticateOK = false;
+        }
+
+        // Check for a valid Customer ID (Mobile Number)
+        if (!isMobileIDValid(mStrCustomerID))
+        {
+            edtCustomerIDView.setError(getString(R.string.error_invalid_mobile));
             focusView = edtCustomerIDView;
             bAuthenticateOK = false;
         }
 
-        // Check for a valid Vendor ID (Mobile Number)
-        if (TextUtils.isEmpty(mStrVendorID) && isMobileIDValid(mStrVendorID))
-        {
-            edtVendorIDView.setError(getString(R.string.error_field_required));
-            focusView = edtVendorIDView;
-            bAuthenticateOK = false;
-        }
-
         // Check for a valid Customer Password
-        if (TextUtils.isEmpty(mStrCustomerPassword) && !isPasswordValid(mStrCustomerPassword))
+        if (!TextUtils.isEmpty(mStrCustomerPassword) && !isPasswordValid(mStrCustomerPassword))
         {
             edtPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = edtPasswordView;
@@ -183,7 +181,7 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
         // Check if the confirm password is same as the original password
         if ((mStrPasswordRepeat.equals(mStrCustomerPassword)) == false)
         {
-            edtPasswordRepeatView.setError(getString(R.string.error_incorrect_password));
+            edtPasswordRepeatView.setError(getString(R.string.error_password_mismatch));
             focusView = edtPasswordRepeatView;
             bAuthenticateOK = false;
         }
@@ -213,8 +211,7 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
 
         jsonCustomerObject.addProperty("CustomerName", mStrCustomerName);
         jsonCustomerObject.addProperty("CustomerID", mStrCustomerID);
-        jsonCustomerObject.addProperty("Password", mStrCustomerPassword);
-        jsonCustomerObject.addProperty("VendorID", mStrVendorID);
+        jsonCustomerObject.addProperty("CustomerPassword", mStrCustomerPassword);
 
         return jsonCustomerObject;
     }
@@ -235,6 +232,10 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
         {
             return Constant.DB_ERROR;
         }
+
+        /* Sucessfully recieved the Vendor ID */
+        mStrVendorID = strResponse;
+
         return Constant.JSON_SUCCESS;
     }
 
@@ -260,11 +261,12 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
             editor.putString(getString(R.string.customer_password),mStrCustomerPassword);
             editor.commit();
 
-            SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "Registration Successful");
+            Intent intent = new Intent(RegistrationCustomerActivity.this,CustomerLogin.class);
+            SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "You have been successfully registered.", intent);
         }
         else
         {
-            SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "Registration Failed");
+            SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "There is a prolem in registration.Please try again",null);
         }
     }
 }

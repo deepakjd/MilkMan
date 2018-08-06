@@ -1,7 +1,10 @@
 package com.comorinland.milkman.vendorapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -26,6 +31,8 @@ import com.comorinland.milkman.common.CustomerInfoDatabase;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
 import com.comorinland.milkman.common.ResponseHandler;
 import com.comorinland.milkman.common.DataHandler;
+import com.comorinland.milkman.common.SharedHelper;
+import com.comorinland.milkman.common.babushkatext.BabushkaText;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -147,15 +154,81 @@ public class VendorFragmentApproveCancelDelivery extends Fragment implements Res
 
         new CustomerDatabaseAsync(this,getActivity()).execute();
 
+        CheckBox cbApproveCancelDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_cancel_deliveries);
+
+        cbApproveCancelDeliveries.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked == true)
+                {
+                    int count = mCancelApprovalListView.getChildCount();
+                    for (int i = 0; i < count; i++)
+                    {
+                        View v = mCancelApprovalListView.getChildAt(i);
+                        CheckBox cbCancelDelivery = (CheckBox) v.findViewById(R.id.cb_cancel_approve);
+                        cbCancelDelivery.setChecked(true);
+                    }
+                    VendorCancelListAdapter cancelListAdapter;
+                    cancelListAdapter = (VendorCancelListAdapter) mCancelApprovalListView.getAdapter();
+
+                    if (cancelListAdapter != null)
+                    {
+                        cancelListAdapter.ApproveAllCancellations();
+                    }
+                }
+                if (isChecked == false)
+                {
+                    int count = mCancelApprovalListView.getChildCount();
+                    for (int i = 0; i < count; i++)
+                    {
+                        View v = mCancelApprovalListView.getChildAt(i);
+                        CheckBox cbCancelDelivery = (CheckBox) v.findViewById(R.id.cb_cancel_approve);
+                        cbCancelDelivery.setChecked(false);
+                    }
+                    VendorCancelListAdapter cancelListAdapter;
+                    cancelListAdapter = (VendorCancelListAdapter) mCancelApprovalListView.getAdapter();
+
+                    if (cancelListAdapter != null)
+                    {
+                        cancelListAdapter.RemoveAllCancellations();
+                    }
+                }
+            }
+        });
+
         btnApproveDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 VendorCancelListAdapter cancelListAdapter;
                 cancelListAdapter = (VendorCancelListAdapter) mCancelApprovalListView.getAdapter();
-                if (cancelListAdapter != null) {
 
+                if (cancelListAdapter != null)
+                {
                     ArrayList<CustomerCancelInformation> e = cancelListAdapter.getSelectedApprovals();
-                    mCancelDeliveryListener.HandleCancelDeliveryClick(e);
+
+                    if (e.isEmpty())
+                    {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+
+                        // Setting Dialog Title
+                        alertDialog.setTitle("Alert");
+
+                        // Setting Dialog Message
+                        alertDialog.setMessage("You have not selected any items. Please select atleast one");
+
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog    closed
+
+                            }
+                        });
+
+                        alertDialog.show();
+                    }
+                    else
+                        mCancelDeliveryListener.HandleCancelDeliveryClick(e);
                 }
             }
         });
@@ -264,8 +337,10 @@ public class VendorFragmentApproveCancelDelivery extends Fragment implements Res
         }
         for (CustomerInfo xCustomerInfo : mlistCustomerInfo)
         {
-            if (xCustomerInfo.CustomerID.equals(strCustomerId))
+            if (xCustomerInfo.CustomerID.equals(strCustomerId)) {
                 strCustomerName = xCustomerInfo.CustomerName;
+                break;
+            }
             else
                 strCustomerName = "Name Unknown";
         }
@@ -281,8 +356,28 @@ public class VendorFragmentApproveCancelDelivery extends Fragment implements Res
             mCancelApprovalListView = (ListView) getActivity().findViewById(R.id.lst_approve_cancel_delivery);
 
             cancelListAdapter = new VendorCancelListAdapter(getActivity(), arrListCustomerCancelInformation);
-
             mCancelApprovalListView.setAdapter(cancelListAdapter);
+
+            BabushkaText babushkaTextCancelDelivery = (BabushkaText) getActivity().findViewById(R.id.txt_cancel_delivery);
+            babushkaTextCancelDelivery.setText("Cancellation requests awaiting your approval");
+
+            CheckBox cbApproveCancelDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_cancel_deliveries);
+            cbApproveCancelDeliveries.setVisibility(View.VISIBLE);
+        }
+        else if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
+        {
+            CheckBox cbApproveCancelDeliveries = (CheckBox) getActivity().findViewById(R.id.cb_approve_all_cancel_deliveries);
+            BabushkaText babushkaTextCancelDelivery = (BabushkaText) getActivity().findViewById(R.id.txt_cancel_delivery);
+            Button btnCancelDelivery = (Button)getActivity().findViewById(R.id.btn_vendor_approve_cancel_delivery);
+
+            cbApproveCancelDeliveries.setVisibility(View.INVISIBLE);
+            babushkaTextCancelDelivery.setText("There are no cancellation requests now");
+            btnCancelDelivery.setEnabled(false);
+        }
+        else
+        {
+            Intent intentSharedHelper = new Intent(getActivity(),VendorMenu.class);
+            SharedHelper.showAlertDialog(getActivity(), "Problem in network connection", intentSharedHelper);
         }
     }
 }

@@ -11,7 +11,9 @@
 
 package com.comorinland.milkman.customerapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -79,13 +81,34 @@ public class DailyMilkInfoModify extends AppCompatActivity implements ResponseHa
             public void onClick(View view) {
                 HashMap<String, ArrayList<MilkInfo>> hashMapMilkInfo = new HashMap<String, ArrayList<MilkInfo>>();
                 hashMapMilkInfo.putAll(mExpandableMilkInfoListAdapter.getMilkInfo());
-                Intent intentDailyMilkPlaceOrder = new Intent(DailyMilkInfoModify.this, DailyMilkPlaceOrder.class);
-                intentDailyMilkPlaceOrder.putExtra("PlacedOrder", hashMapMilkInfo);
-                intentDailyMilkPlaceOrder.putExtra("DateOfModification", strModificationDate);
-                intentDailyMilkPlaceOrder.putExtra("AppType",strAppType);
-                intentDailyMilkPlaceOrder.putExtra("CustomerID",strCustomerID);
-                startActivity(intentDailyMilkPlaceOrder);
-                finish();
+                if (mExpandableMilkInfoListAdapter.isMilkDeliveryPresent() == false)
+                {
+                    AlertDialog alertDialog = new AlertDialog.Builder(DailyMilkInfoModify.this).create();
+
+                    // Setting Dialog Title
+                    alertDialog.setTitle("Alert");
+
+                    // Setting Dialog Message
+                    alertDialog.setMessage("Please select atleast one delivery item.In case you do not want any, use the cancel delivery option.");
+
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog    closed
+
+                        }
+                    });
+
+                    alertDialog.show();
+                }
+                else {
+                    Intent intentDailyMilkPlaceOrder = new Intent(DailyMilkInfoModify.this, DailyMilkPlaceOrder.class);
+                    intentDailyMilkPlaceOrder.putExtra("PlacedOrder", hashMapMilkInfo);
+                    intentDailyMilkPlaceOrder.putExtra("DateOfModification", strModificationDate);
+                    intentDailyMilkPlaceOrder.putExtra("AppType", strAppType);
+                    intentDailyMilkPlaceOrder.putExtra("CustomerID", strCustomerID);
+                    startActivity(intentDailyMilkPlaceOrder);
+                    finish();
+                }
             }
         });
 

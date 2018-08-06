@@ -65,7 +65,7 @@
                 android:textAppearance="@android:style/TextAppearance.Holo.Small"
                 android:textColor="@color/colorPrimaryDark"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:hint="Enter Customer Name (Optional)" />
+                android:hint="Enter Customer Name" />
 
         </android.support.design.widget.TextInputLayout>
 

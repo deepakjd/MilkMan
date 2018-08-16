@@ -118,7 +118,6 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
                     intentCustomerAddressRegistration.putExtra("CustomerName", mStrCustomerName);
                     intentCustomerAddressRegistration.putExtra("CustomerID", mStrCustomerID);
                     intentCustomerAddressRegistration.putExtra("CustomerPassword", mStrCustomerPassword);
-                    intentCustomerAddressRegistration.putExtra("VendorID", mStrVendorID);
                     startActivity(intentCustomerAddressRegistration);
                 }
             }
@@ -233,7 +232,7 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
             return Constant.DB_ERROR;
         }
 
-        /* Sucessfully recieved the Vendor ID */
+        /* Successfully received the Vendor ID */
         mStrVendorID = strResponse;
 
         return Constant.JSON_SUCCESS;
@@ -263,6 +262,11 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
 
             Intent intent = new Intent(RegistrationCustomerActivity.this,CustomerLogin.class);
             SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "You have been successfully registered.", intent);
+        }
+        else if (strReturnCode.equals(Constant.INFO_NOT_FOUND))
+        {
+            Intent intent = new Intent(RegistrationCustomerActivity.this,CustomerLogin.class);
+            SharedHelper.showAlertDialog(RegistrationCustomerActivity.this, "You have not been added by the vendor yet. Please request the vendor to add your name.",intent);
         }
         else
         {

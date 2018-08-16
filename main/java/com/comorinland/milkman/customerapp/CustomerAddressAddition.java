@@ -16,13 +16,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.comorinland.milkman.R;
-import com.comorinland.milkman.common.Constant;
-import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
-import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.common.*;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class CustomerAddressAddition extends AppCompatActivity implements ResponseHandler
 {
@@ -95,7 +95,6 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
         mStrCustomerName = (String) getIntent().getExtras().getSerializable("CustomerName");
         mStrCustomerID = (String) getIntent().getExtras().getSerializable("CustomerID");
         mStrCustomerPassword = (String) getIntent().getExtras().getSerializable("CustomerPassword");
-        mStrVendorID = (String) getIntent().getExtras().getSerializable("VendorID");
 
         mProgressDialog = new ProgressDialog(CustomerAddressAddition.this);
         mProgressDialog.setIndeterminate(false);
@@ -190,7 +189,7 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
     {
         JsonObject jsonCustomerObject = new JsonObject();
 
-        jsonCustomerObject.addProperty("VendorID", mStrVendorID);
+        jsonCustomerObject.addProperty("CustomerID", mStrCustomerID);
 
         return jsonCustomerObject;
     }
@@ -201,8 +200,7 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
 
         jsonCustomerObject.addProperty("CustomerName", mStrCustomerName);
         jsonCustomerObject.addProperty("CustomerID", mStrCustomerID);
-        jsonCustomerObject.addProperty("Password", mStrCustomerPassword);
-        jsonCustomerObject.addProperty("VendorID", mStrVendorID);
+        jsonCustomerObject.addProperty("CustomerPassword", mStrCustomerPassword);
         jsonCustomerObject.addProperty("PostalAddress",mStrPostalAddress);
 
         return  jsonCustomerObject;
@@ -227,65 +225,58 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
             return Constant.DB_ERROR;
         }
 
-        if (strResponse.equals("QUERY_SUCCESS"))     /* This is a response for setting successfully
-                                                        customer information into the DB */
-        {
-            mbRegisterCustomer = Boolean.TRUE;
-            return Constant.JSON_SUCCESS;
-        }
-
         try
         {
             mbRegisterCustomer = Boolean.FALSE;
-            JSONObject jsonCityNameObject = new JSONObject(strResponse);
-            mStrCityName = jsonCityNameObject.getString("City");
+
+            JSONObject jsonCustomerObject = new JSONObject(strResponse);
+
+            Iterator<String> iter = jsonCustomerObject.keys();
+
+            while (iter.hasNext())
+            {
+                String strKey = iter.next();
+
+                if (strKey.equals("City"))
+                {
+                    mStrCityName = jsonCustomerObject.getString("City");
+                    mbRegisterCustomer = Boolean.FALSE;
+                }
+
+                if (strKey.equals("VendorID"))
+                {
+                    mStrVendorID = jsonCustomerObject.getString("VendorID");
+                    mbRegisterCustomer = Boolean.TRUE;
+                }
+            }
         }
         catch (JSONException e)
         {
             return Constant.JSON_EXCEPTION;
         }
         return Constant.JSON_SUCCESS;
-
     }
 
     public void UpdateMilkInfoDisplay(String strReturnCode)
     {
-        AlertDialog alertDialog = new AlertDialog.Builder(CustomerAddressAddition.this).create();
-
-        // Setting Dialog Title
-        alertDialog.setTitle("Alert");
-
-
         if (strReturnCode.equals(Constant.DB_ERROR))
         {
-            // Setting Dialog Message
-            alertDialog.setMessage("Sorry there was a problem. Please contact your vendor");
-            // Showing Alert Message
-            alertDialog.show();
+            Intent intent = new Intent(CustomerAddressAddition.this,CustomerLogin.class);
+            com.comorinland.milkman.common.SharedHelper.showAlertDialog(CustomerAddressAddition.this, "Sorry there was a problem. Please contact your vendor",intent);
         }
+
         if (strReturnCode.equals(Constant.RESPONSE_UNAVAILABLE))
         {
-            alertDialog.setMessage("Please check your connection");
-            // Showing Alert Message
-            alertDialog.show();
+            Intent intent = new Intent(CustomerAddressAddition.this,CustomerLogin.class);
+            com.comorinland.milkman.common.SharedHelper.showAlertDialog(CustomerAddressAddition.this, "You have not been added by the vendor yet. Please request the vendor to add your name",intent);
         }
 
         if (strReturnCode.equals(Constant.JSON_SUCCESS))
         {
             if (mbRegisterCustomer == Boolean.TRUE)
             {
-                alertDialog.setMessage("Registration succesful. You can login with your password.");
-
-                // Setting OK Button
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(CustomerAddressAddition.this, CustomerLogin.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
-                // Showing Alert Message
-                alertDialog.show();
+                Intent intent = new Intent(CustomerAddressAddition.this,CustomerLogin.class);
+                com.comorinland.milkman.common.SharedHelper.showAlertDialog(CustomerAddressAddition.this, "Registration succesful. You can login with your password",intent);
             }
             else
             {

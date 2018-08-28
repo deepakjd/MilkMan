@@ -135,12 +135,6 @@ public class VendorRegistration extends AppCompatActivity implements ResponseHan
 
             editor.putString(getString(R.string.vendor_id), mStrVendorID);
             editor.commit();
-            editor.putString(getString(R.string.city_name), mStrVendorCity);
-            editor.commit();
-            editor.putString(getString(R.string.distribution_company),mStrMilkCompany);
-            editor.commit();
-            editor.putString(getString(R.string.vendor_password), mStrVendorPassword);
-            editor.commit();
 
             return Constant.VENDOR_WRITE_SUCCESS;
         }
@@ -181,15 +175,11 @@ public class VendorRegistration extends AppCompatActivity implements ResponseHan
         return Constant.JSON_SUCCESS;
     }
 
-    private JsonObject jsonBuildInfo() {
-        JsonObject jsonCustomerObject = new JsonObject();
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String strVendorID = sharedPref.getString(getString(R.string.vendor_id), null);
-
-        jsonCustomerObject.addProperty("VendorID", strVendorID);
-
-        return jsonCustomerObject;
+    private JsonObject jsonBuildInfo()
+    {
+        /* We are just sending a Json object without any data, because we do not need any data */
+        JsonObject jsonVendorObject = new JsonObject();
+        return jsonVendorObject;
     }
 
     public void CallbackDistributionCompanySpinner()

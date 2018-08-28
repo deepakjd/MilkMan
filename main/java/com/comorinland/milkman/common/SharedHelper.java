@@ -45,9 +45,7 @@ public class SharedHelper
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
 
-        builder.setView(dialogView)
-                .setCustomTitle(title)
-                .setPositiveButton(R.string.mdtp_ok, new DialogInterface.OnClickListener() {
+        builder.setView(dialogView).setCustomTitle(title).setPositiveButton(R.string.mdtp_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (intentStart != null) {

@@ -10,7 +10,9 @@
 package com.comorinland.milkman.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +21,19 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.babushkatext.BabushkaText;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -41,6 +46,9 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
     private List<MilkTypeInfo> mListMilkType;
     private HashMap<String, ArrayList<MilkInfo>> mHashmapMilkInfo;
     private String mStrPreviouslyCheckedTag;
+    private InternalFileStorageUtils mInternalFileStorageUtils;
+    private String mStrZipFileName;
+
 
     public ExpandableMilkInfoListAdapter(Context context, List<MilkTypeInfo> listMilktype)
     {
@@ -56,6 +64,10 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
             mHashmapMilkInfo.put(mListMilkType.get(i).mStrMilkType, e);
         }
         mStrPreviouslyCheckedTag="";
+
+        mInternalFileStorageUtils = new InternalFileStorageUtils(mContext);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mStrZipFileName = sharedPref.getString(mContext.getString(R.string.storage_s3_key), null);
     }
 
     public boolean isMilkDeliveryPresent()
@@ -130,7 +142,14 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
         {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_list_milk_type, null);
+            if (mInternalFileStorageUtils.AreMilkVarietyPhotosAvailable(mStrZipFileName) == Boolean.FALSE) {
+
+                convertView = inflater.inflate(R.layout.expandable_list_milk_type, null);
+            }
+            else
+            {
+                convertView = inflater.inflate(R.layout.expandable_list_milk_type_image, null);
+            }
         }
 
         RadioButton radioButtonMilkType = (RadioButton) convertView.findViewById(R.id.rb_milk_type);
@@ -138,6 +157,20 @@ public class ExpandableMilkInfoListAdapter extends BaseExpandableListAdapter
         FloatingActionButton floatingActionButton = (FloatingActionButton) convertView.findViewById(R.id.fab_expandable_milk_info);
 
         BabushkaText babushkaTextDisplayInfo = (BabushkaText) convertView.findViewById(R.id.text_expandable_milk_info);
+
+        if (mInternalFileStorageUtils.AreMilkVarietyPhotosAvailable(mStrZipFileName) == Boolean.TRUE)
+        {
+            ImageView imgMilkVariety = (ImageView) convertView.findViewById(R.id.img_milk_variety);
+            String strMilkVarietyName = (String)getGroup(groupPosition);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String strImageName = sharedPref.getString(strMilkVarietyName,null);
+
+            String strFullPathToImageFile = mInternalFileStorageUtils.GetFullPathFromImageName(mStrZipFileName,strImageName);
+            File fileImage = new File(strFullPathToImageFile);
+
+            if (fileImage.exists())
+                Picasso.get().load(fileImage).fit().centerCrop().into(imgMilkVariety);
+        }
 
         String strModifyMilkInfo = "";
         babushkaTextDisplayInfo.reset();

@@ -2,9 +2,12 @@ package com.comorinland.milkman.customerapp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +34,6 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
     String mStrCustomerName;
     String mStrCustomerID;
     String mStrCustomerPassword;
-    String mStrVendorID;
     String mStrCityName;
     String mStrPostalAddress;
 
@@ -78,7 +80,8 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
                 int keypadHeight = screenHeight - r.bottom;
 
                 if (keypadHeight > screenHeight * 0.15)
-                { // 0.15 ratio is perhaps enough to determine keypad height.
+                {
+                    // 0.15 ratio is perhaps enough to determine keypad height.
                     // keyboard is opened
                     btnAddressRegister.setVisibility(View.INVISIBLE);
                 }
@@ -227,7 +230,7 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
 
         try
         {
-            mbRegisterCustomer = Boolean.FALSE;
+            mbRegisterCustomer = Boolean.TRUE;
 
             JSONObject jsonCustomerObject = new JSONObject(strResponse);
 
@@ -241,12 +244,6 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
                 {
                     mStrCityName = jsonCustomerObject.getString("City");
                     mbRegisterCustomer = Boolean.FALSE;
-                }
-
-                if (strKey.equals("VendorID"))
-                {
-                    mStrVendorID = jsonCustomerObject.getString("VendorID");
-                    mbRegisterCustomer = Boolean.TRUE;
                 }
             }
         }
@@ -275,6 +272,13 @@ public class CustomerAddressAddition extends AppCompatActivity implements Respon
         {
             if (mbRegisterCustomer == Boolean.TRUE)
             {
+                /* Retain the Customer ID alone. We do not want the user to type Customer mobile number again
+                 * in the login screen */
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.customer_id), mStrCustomerID);
+                editor.commit();
+
                 Intent intent = new Intent(CustomerAddressAddition.this,CustomerLogin.class);
                 com.comorinland.milkman.common.SharedHelper.showAlertDialog(CustomerAddressAddition.this, "Registration succesful. You can login with your password",intent);
             }

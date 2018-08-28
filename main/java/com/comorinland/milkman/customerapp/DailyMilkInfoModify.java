@@ -100,7 +100,8 @@ public class DailyMilkInfoModify extends AppCompatActivity implements ResponseHa
 
                     alertDialog.show();
                 }
-                else {
+                else
+                {
                     Intent intentDailyMilkPlaceOrder = new Intent(DailyMilkInfoModify.this, DailyMilkPlaceOrder.class);
                     intentDailyMilkPlaceOrder.putExtra("PlacedOrder", hashMapMilkInfo);
                     intentDailyMilkPlaceOrder.putExtra("DateOfModification", strModificationDate);

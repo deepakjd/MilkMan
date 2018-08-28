@@ -27,14 +27,19 @@ import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.CustomerInfo;
 import com.comorinland.milkman.common.CustomerInfoDatabase;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
+import com.comorinland.milkman.common.DownloadFromS3Task;
+import com.comorinland.milkman.common.InternalFileStorageUtils;
 import com.comorinland.milkman.common.ResponseHandler;
+import com.comorinland.milkman.customerapp.CustomerLogin;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 
 public class VendorLogin extends AppCompatActivity implements ResponseHandler
 {
@@ -55,6 +60,10 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
     String mStrMilkDistributor;
     ArrayList<CustomerInfo> mlistCustomerInfo = new ArrayList<>();
 
+    HashMap<String,String> mMapImageName = new HashMap<>();
+    /* Pre-Signin URL String */
+    String mStrSignInURL="";
+    String mStrStorageKey ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -189,6 +198,33 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
             mStrVendorPassword = dataObject.getString("Password");
             mStrCityName         = dataObject.getString("City");
             mStrMilkDistributor  = dataObject.getString("MilkCompany");
+
+            if (dataObject.has("SignInURL"))
+            {
+                /* The SignIn URL which has been created */
+                mStrSignInURL = dataObject.getString("SignInURL");
+            }
+
+            if (dataObject.has("S3KeyZipName"))
+            {
+                mStrStorageKey = dataObject.getString("S3KeyZipName");
+            }
+
+            if (dataObject.has("ImageNames"))
+            {
+                /* Get the name of the .png image files of the milk cover */
+                JSONObject jsonImageNamesObject = dataObject.getJSONObject("ImageNames");
+
+                Iterator<String> iter = jsonImageNamesObject.keys();
+
+                while (iter.hasNext())
+                {
+                    String strMilkVarietyName = iter.next();
+                    String strImageName = (String) jsonImageNamesObject.get(strMilkVarietyName);
+                    mMapImageName.put(strMilkVarietyName, strImageName);
+                }
+            }
+
             JSONObject customerInfoObject = dataObject.getJSONObject("CustomerList");
 
             if (customerInfoObject != null)
@@ -206,6 +242,7 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
         {
             return Constant.JSON_EXCEPTION;
         }
+
         return Constant.JSON_SUCCESS;
     }
 
@@ -234,9 +271,25 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
             editor.commit();
             editor.putString(getString(R.string.distribution_company),mStrMilkDistributor);
             editor.commit();
+            editor.putString(getString(R.string.storage_s3_key),mStrStorageKey);
+            editor.commit();
+
+            if (mMapImageName.isEmpty() == Boolean.FALSE)
+            {
+                Set<String> setKeyNames = mMapImageName.keySet();
+                Iterator<String> iter = setKeyNames.iterator();
+                while (iter.hasNext())
+                {
+                    String strMilkVarietyName = iter.next();
+                    editor.putString(strMilkVarietyName, mMapImageName.get(strMilkVarietyName));
+                    editor.commit();
+                }
+            }
+
             if (mCustomerDatabaseAsync == null)
             {
-                if (mlistCustomerInfo.isEmpty() == false) {
+                if (mlistCustomerInfo.isEmpty() == false)
+                {
                     bCustomerInformationFlag = true;
                     mCustomerDatabaseAsync = new VendorLogin.CustomerDatabaseAsync(VendorLogin.this);
                     mCustomerDatabaseAsync.execute(mlistCustomerInfo);
@@ -256,7 +309,8 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
 
     private void attemptLogin()
     {
-        if (mAuthTask != null) {
+        if (mAuthTask != null)
+        {
             return;
         }
 
@@ -307,27 +361,35 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
         boolean bConfigurationInfo = true;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         bConfigurationInfo = sharedPref.contains(getString(R.string.vendor_id));
 
         if (bConfigurationInfo == false)
         {
             return bConfigurationInfo;
         }
+
         bConfigurationInfo = sharedPref.contains(getString(R.string.vendor_password));
+
         if (bConfigurationInfo == false)
         {
             return bConfigurationInfo;
         }
+
         bConfigurationInfo = sharedPref.contains(getString(R.string.city_name));
+
         if (bConfigurationInfo == false)
         {
             return bConfigurationInfo;
         }
+
         bConfigurationInfo = sharedPref.contains(getString(R.string.distribution_company));
+
         if (bConfigurationInfo == false)
         {
             return bConfigurationInfo;
         }
+
         return bConfigurationInfo;
     }
 
@@ -335,17 +397,26 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class VendorLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+    public class VendorLoginTask extends AsyncTask<Void, Void, Boolean>
+    {
         private final String mVendorID;
         private final String mVendorPassword;
 
         private Context mContext;
 
-        VendorLoginTask(Context context, String VendorID, String VendorPassword) {
+        private InternalFileStorageUtils mInternalFileStorageUtils;
+        private String mStrZipFileName;
+
+        VendorLoginTask(Context context, String VendorID, String VendorPassword)
+        {
             mVendorID = VendorID;
             mVendorPassword = VendorPassword;
             mContext = context;
+
+            mInternalFileStorageUtils = new InternalFileStorageUtils(mContext);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            mStrZipFileName = sharedPref.getString(mContext.getString(R.string.storage_s3_key), null);
         }
 
         @Override
@@ -359,7 +430,6 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
                 String strVendorID = sharedPref.getString(getString(R.string.vendor_id), null);
                 String strVendorPassword = sharedPref.getString(getString(R.string.vendor_password), null);
-
 
                 if (mVendorID.equals(strVendorID) == false)
                 {
@@ -392,13 +462,21 @@ public class VendorLogin extends AppCompatActivity implements ResponseHandler
             }
             else
             {
+                if ((mStrSignInURL.isEmpty() == Boolean.FALSE) && mInternalFileStorageUtils.AreMilkVarietyPhotosAvailable(mStrZipFileName) == Boolean.FALSE)
+                {
+                    // If the Sign-in URL is present and the directory were the photos are stored is not present.
+                    // We will then download the zip file.
+                    new DownloadFromS3Task(VendorLogin.this).execute(mStrSignInURL, mStrZipFileName);
+                }
+
                 Intent intentVendorFeatures = new Intent(mContext, VendorMenu.class);
                 startActivity(intentVendorFeatures);
             }
         }
 
         @Override
-        protected void onCancelled() {
+        protected void onCancelled()
+        {
             mAuthTask = null;
         }
     }

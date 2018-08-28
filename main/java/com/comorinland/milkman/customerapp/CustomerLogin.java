@@ -33,13 +33,23 @@ import android.widget.TextView;
 import com.comorinland.milkman.R;
 import com.comorinland.milkman.common.Constant;
 import com.comorinland.milkman.common.DownloadFromAmazonDBTask;
+import com.comorinland.milkman.common.DownloadFromS3Task;
+import com.comorinland.milkman.common.InternalFileStorageUtils;
 import com.comorinland.milkman.common.ResponseHandler;
 import com.comorinland.milkman.vendorapp.VendorLogin;
 import com.comorinland.milkman.vendorapp.VendorRegistration;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A login screen that offers login via email/password.
@@ -62,8 +72,14 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
     String mStrCityName;
     String mStrMilkDistributor;
 
+    HashMap<String,String> mMapImageName = new HashMap<>();
+    /* Pre-Signin URL String */
+    String mStrSignInURL="";
+    String mStrStorageKey ="";
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_login);
 
@@ -106,6 +122,7 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
                     /* The shared preferences do not have some preference information. We need to
                        get the information from the preferences for the login to be authenticated.
                        */
+
                     // Create thread to get data from the server.
                     mProgressDialog = new ProgressDialog(CustomerLogin.this);
                     mProgressDialog.setIndeterminate(false);
@@ -170,14 +187,41 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
         {
             return Constant.DB_ERROR;
         }
-        try {
-
+        try
+        {
             JSONObject dataObject = new JSONObject(strResponse);
+
             mStrCustomerID = dataObject.getString("CustomerID");
             mStrVendorID = dataObject.getString("VendorID");
             mStrCustomerPassword = dataObject.getString("Password");
-            mStrCityName         = dataObject.getString("City");
-            mStrMilkDistributor  = dataObject.getString("MilkCompany");
+            mStrCityName = dataObject.getString("City");
+            mStrMilkDistributor = dataObject.getString("MilkCompany");
+
+            if (dataObject.has("SignInURL"))
+            {
+                /* The SignIn URL which has been created */
+                mStrSignInURL = dataObject.getString("SignInURL");
+            }
+
+            if (dataObject.has("S3KeyZipName"))
+            {
+                mStrStorageKey = dataObject.getString("S3KeyZipName");
+            }
+
+            if (dataObject.has("ImageNames"))
+            {
+                /* Get the name of the .png image files of the milk cover */
+                JSONObject jsonImageNamesObject = dataObject.getJSONObject("ImageNames");
+
+                Iterator<String> iter = jsonImageNamesObject.keys();
+
+                while (iter.hasNext())
+                {
+                    String strMilkVarietyName = iter.next();
+                    String strImageName = (String) jsonImageNamesObject.get(strMilkVarietyName);
+                    mMapImageName.put(strMilkVarietyName, strImageName);
+                }
+            }
         }
         catch (JSONException e)
         {
@@ -208,7 +252,22 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
             editor.commit();
             editor.putString(getString(R.string.distribution_company),mStrMilkDistributor);
             editor.commit();
+            editor.putString(getString(R.string.storage_s3_key),mStrStorageKey);
+            editor.commit();
+
+            if (mMapImageName.isEmpty() == Boolean.FALSE)
+            {
+                Set<String> setKeyNames = mMapImageName.keySet();
+                Iterator<String> iter = setKeyNames.iterator();
+                while (iter.hasNext())
+                {
+                    String strMilkVarietyName = iter.next();
+                    editor.putString(strMilkVarietyName, mMapImageName.get(strMilkVarietyName));
+                    editor.commit();
+                }
+            }
         }
+
         /* We will try to login inspite of the status of server data transaction */
         attemptLogin();
     }
@@ -219,6 +278,7 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         bConfigurationInfo = sharedPref.contains(getString(R.string.vendor_id));
+
         if (bConfigurationInfo == false)
         {
             return bConfigurationInfo;
@@ -251,6 +311,7 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
         if (!mEditCustomerID.getText().toString().equals(strCustomerID))
             mEditCustomerID.setText(strCustomerID);
     }
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -296,12 +357,14 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
             cancel = true;
         }
 
-        if (cancel) {
+        if (cancel)
+        {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        } else
-            {
+        }
+        else
+        {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             mAuthTask = new UserLoginTask(this, strCustomerID, strCustomerPassword);
@@ -330,10 +393,19 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
 
         private Context mContext;
 
-        UserLoginTask(Context context, String strCustomerID, String strPassword) {
+        private InternalFileStorageUtils mInternalFileStorageUtils;
+        private String mStrZipFileName;
+
+
+        UserLoginTask(Context context, String strCustomerID, String strPassword)
+        {
             mStrCustomerID = strCustomerID;
             mStrCustomerPassword = strPassword;
             mContext = context;
+
+            mInternalFileStorageUtils = new InternalFileStorageUtils(mContext);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            mStrZipFileName = sharedPref.getString(mContext.getString(R.string.storage_s3_key), null);
         }
 
         @Override
@@ -372,17 +444,27 @@ public class CustomerLogin extends AppCompatActivity implements ResponseHandler
         {
             mAuthTask = null;
 
-            if (!success) {
+            if (!success)
+            {
                 mEditCustomerPassword.setError(getString(R.string.error_incorrect_password));
                 mEditCustomerPassword.requestFocus();
-            } else {
+            }
+            else
+            {
+                if ((mStrSignInURL.isEmpty() == Boolean.FALSE) && mInternalFileStorageUtils.AreMilkVarietyPhotosAvailable(mStrZipFileName) == Boolean.FALSE)
+                {
+                    // If the Sign-in URL is present and the directory were the photos are stored is not present.
+                    // We will then download the zip file.
+                    new DownloadFromS3Task(CustomerLogin.this).execute(mStrSignInURL, mStrZipFileName);
+                }
                 Intent intentMilkman = new Intent(mContext, MainMenuFeatures.class);
                 startActivity(intentMilkman);
             }
         }
 
         @Override
-        protected void onCancelled() {
+        protected void onCancelled()
+        {
             mAuthTask = null;
         }
     }

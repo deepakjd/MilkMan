@@ -100,7 +100,6 @@ public class VendorConfigureDefaultDelivery extends AppCompatActivity implements
         {
             return Constant.RESPONSE_UNAVAILABLE;
         }
-
         if (strResponse.equals("QUERY_EMPTY"))
         {
             return Constant.INFO_NOT_FOUND;

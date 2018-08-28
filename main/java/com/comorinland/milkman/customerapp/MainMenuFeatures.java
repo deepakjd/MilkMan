@@ -85,7 +85,6 @@ public class MainMenuFeatures extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Customer Menu");
 
-
         mListCustomerMenu = (ListView)findViewById(R.id.lst_customer_menu_feature);
 
         mCustomerMenuAdapter = new CustomerMenuAdapter(this);
@@ -117,5 +116,6 @@ public class MainMenuFeatures extends AppCompatActivity
                 }
             }
         });
+
     }
 }

@@ -232,9 +232,6 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
             return Constant.DB_ERROR;
         }
 
-        /* Successfully received the Vendor ID */
-        mStrVendorID = strResponse;
-
         return Constant.JSON_SUCCESS;
     }
 
@@ -242,22 +239,11 @@ public class RegistrationCustomerActivity extends AppCompatActivity implements R
     {
         if (strReturnCode.equals(Constant.JSON_SUCCESS))
         {
-            /* The registration process has been a success. We will store important customer
-              related information that is going to be used throughout the app in the profile
-              database.
-            */
-
+            /* Retain the Customer ID alone. We do not want the user to type Customer mobile number again
+             * in the login screen */
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
             SharedPreferences.Editor editor = sharedPref.edit();
-
-            editor.putString(getString(R.string.vendor_id), mStrVendorID);
-            editor.commit();
-
-            editor.putString(getString(R.string.customer_id),mStrCustomerID);
-            editor.commit();
-
-            editor.putString(getString(R.string.customer_password),mStrCustomerPassword);
+            editor.putString(getString(R.string.customer_id), mStrCustomerID);
             editor.commit();
 
             Intent intent = new Intent(RegistrationCustomerActivity.this,CustomerLogin.class);

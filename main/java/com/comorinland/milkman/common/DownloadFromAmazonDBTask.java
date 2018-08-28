@@ -75,7 +75,7 @@ public class DownloadFromAmazonDBTask extends AsyncTask<JsonObject, Void, String
                 // Nothing to do
                 return null;
             }
-
+            
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String inputLine;
 
